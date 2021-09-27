@@ -1,0 +1,8 @@
+<launch>
+  <node
+    pkg="ros_openimu"
+    type="openimu_driver.py"
+    name="openimu_driver" 
+    output="screen"
+  />
+</launch>
