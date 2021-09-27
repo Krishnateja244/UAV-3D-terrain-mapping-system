@@ -1,4 +1,4 @@
-3D terrain mapping system
+UAV 3D terrain mapping system
 =======
 In this 3D terrain mapping system, data collection from sensors during the UAV survey is done initially and further offline processing of the data is done to build a 3D map. The implementation of this research uses mainly Robotic Operating System(ROS). Therefore, the software libraries used for the implementation are divided into two tasks: Data collection and Offline data processing.
 
