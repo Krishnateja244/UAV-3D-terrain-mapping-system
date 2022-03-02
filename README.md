@@ -1,11 +1,13 @@
-UAV 3D terrain mapping system
+3D terrain mapping system
 =======
 In this 3D terrain mapping system, data collection from sensors during the UAV survey is done initially and further offline processing of the data is done to build a 3D map. The implementation of this research uses mainly Robotic Operating System(ROS). Therefore, the software libraries used for the implementation are divided into two tasks: Data collection and Offline data processing.
 
 Data collection
 -----------
 
-The data collection involves collecting data from Velodyne LIDAR, Aceinna IMU, Emlid Reach M+ and Pixhawk 4. The sensors data is collected using the ROS bag tool. The system needs to be setup with appropriate ROS drivers to receive data from sensors into ROS architecture.
+The data collection involves collecting data from Velodyne LIDAR, Aceinna IMU, Emlid Reach M+ and Pixhawk 4. The sensors data is collected using the ROS bag tool. The system needs to be setup with appropriate ROS drivers to receive data from sensors into ROS architecture. The below figure illustrates architectural diagram of sensor setup used for data collection
+
+![My Image](images/architecture.png)
 
 To record the data using the ROS bag tool:
 ```
@@ -100,8 +102,16 @@ To convert the position data from meters in ENU frame published in "msf_core/pos
 ```
 python3 enu_to_geodetic.py 
 ```
-Georefereencing LIDAR point cloud
+Georeferencing LIDAR point cloud
 ---
+
+
+The pointcloud fromm LIDAR frame are transformed to UAV baselink/IMU link and then transformed to maping frame using the below equation
+
+![img](https://latex.codecogs.com/svg.latex?r_i%5EM%3DR_%7BGPS%7D%5EMR_C%5Ebr_i%5EC%2BR_C%5EMr_%7BGPS%7D%5EC%2Br_%7BGPS%7D%5EM)
+
+![My Image](images/georeferencing.png)
+
 
 The Livox high precision mapping ROS package is used to map the LIDAR point cloud. The updated package can be downloaded from this repository. This is a forked repository from https://github.com/Livox-SDK/livox_high_precision_mapping
 
@@ -116,3 +126,17 @@ python transform.py
 Then run the mapping application 
 ```
 roslaunch livox_mapping livox_mapping.launch
+```
+
+Results 
+------------
+The below figure illustrates the predicted trajectory by fusing IMU and GPS and plotted against the groundtruth trajectory
+
+![My Image](images/trajectory.png)
+
+The below figure illustrates the groundtruth lidar pointcloud from Winter wheat dataset 
+
+![My Image](images/groundtruth_lidar.png)
+
+The below figure illustrates the LIDAR pointcloud generated from the mapping algorithm
+![My Image](images/pointcloud.png)
